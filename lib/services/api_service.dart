@@ -17,22 +17,24 @@ class ApiService{
   );
 
   postRequest(String path, dynamic data)async{
-    _dio.interceptors.add(
-      LogInterceptor(
-        responseHeader: true,
-        responseBody: true,
-        requestBody: true
-      )
-    );
-    return await _dio.post(path, data: data);
-  }
-  
-  getRequest(String path, dynamic data)async{
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         return handler.next(options);
       },
     ));
-    return await _dio.post(path, queryParameters: data);
+    return await _dio.post(path, data: data);
+  }
+  
+  getRequest(String path, dynamic data)async{
+    _dio.interceptors..add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        return handler.next(options);
+      },
+    ))..add(LogInterceptor(
+        responseHeader: true,
+        responseBody: true,
+        requestBody: true
+      ));
+    return await _dio.get(path, queryParameters: data);
   }
 }

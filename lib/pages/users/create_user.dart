@@ -36,7 +36,7 @@ class _CreateUserState extends State<CreateUser> {
     await Future.delayed(const Duration(seconds: 2));
     String id = PreferencesConfig.getString(USER_ID_KEY);
     if(id.isNotEmpty){
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/home', arguments: id);
     }
   }
 
@@ -67,7 +67,7 @@ class _CreateUserState extends State<CreateUser> {
       PreferencesConfig.setString(USER_EMAIL_KEY, user.email);
       PreferencesConfig.setString(USER_FIRST_NAME_KEY, user.firstName);
       PreferencesConfig.setString(USER_LAST_NAME_KEY, user.lastName);
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/home', arguments: user.id);
     } catch(e){
         showDialog(context: context, builder: (_){
           return AlertDialog(
